@@ -2,6 +2,10 @@ export default [
     {
         path: '/user',
         component: '../layouts/UserLayout',
+        routes: [
+            { path: '/user', redirect: '/user/login' },
+            { path: '/user/login', component: './User/Login' },
+        ]
     },
     {
         path: '/',
@@ -10,7 +14,7 @@ export default [
             { path: '/', redirect: '/helloworld' },
             {
                 path: '/helloworld',
-                name: '欢迎',
+                name: '样例',
                 icon: 'pie-chart',
                 component: './HelloWorld',
             },

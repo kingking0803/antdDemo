@@ -3,9 +3,12 @@ import Router from './router.config';
 export default {
     // singular: true,
     plugins: [
-        ['umi-plugin-react',{
+        ['umi-plugin-react', {
             antd: true,
             dva: true,
+            dynamicImport: {
+                loadingComponent: './components/PageLoading/index',
+            },
         }],
     ],
     routes: Router,

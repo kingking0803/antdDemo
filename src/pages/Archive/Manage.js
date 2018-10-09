@@ -3,8 +3,9 @@ import { Table } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-@connect(({ register }) => ({
+@connect(({ register,loading }) => ({
     register,
+    loading: loading.models.register,
 }))
 export default class List extends Component {
 
@@ -33,10 +34,11 @@ export default class List extends Component {
         const {
             register: { data },
         } = this.props;
+        const {loading} = this.props;
         return (
             <div>
                 <PageHeaderWrapper title="查阅单管理" content="保留查档后的结果，方便以后查询">
-                    <Table columns={this.columns} dataSource={data} rowKey="id" />
+                    <Table columns={this.columns} dataSource={data} rowKey="id" loading={loading}/>
                 </PageHeaderWrapper>
             </div>
         );

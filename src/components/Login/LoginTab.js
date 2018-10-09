@@ -25,18 +25,18 @@ class LoginTab extends Component {
     }
 
     render() {
-        const { childern } = this.props;
-        return <TabPane {...this.props}>{childern}</TabPane>
+        const { children } = this.props;
+        return <TabPane {...this.props}>{children}</TabPane>
     }
 }
 
 const warpContext = props => (
     <LoginContext.Consumer>
-        {value => <LoginTab tabUtil={value.tabUtil} {...props}/>}
+        {value => <LoginTab tabUtil={value.tabUtil} {...props} />}
     </LoginContext.Consumer>
 );
 
 // 标志位 用来判断是不是自定义组件
 warpContext.typeName = "LoginTab";
 
-export default LoginTab;
+export default warpContext;

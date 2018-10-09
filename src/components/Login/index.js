@@ -6,8 +6,8 @@ import styles from './index.less';
 import { Form, Tabs } from 'antd';
 import LoginTab from './LoginTab';
 import LoginSubmit from './LoginSubmit';
+import LoginItem from './LoginItem';
 
-@Form.create()
 class Login extends Component {
     static propTypes = {
         className: PropTypes.string,
@@ -124,5 +124,8 @@ class Login extends Component {
 
 Login.Tab = LoginTab;
 Login.Submit = LoginSubmit;
+Object.keys(LoginItem).forEach(item => {
+    Login[item] = LoginItem[item];
+});
 
-export default Login;
+export default Form.create()(Login);

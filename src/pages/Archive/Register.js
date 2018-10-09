@@ -32,8 +32,9 @@ const AvatarView = ({ avatar, methodName }) => (
     </Fragment>
 );
 
-@connect(({ register }) => ({
+@connect(({ register, loading }) => ({
     register,
+    submitting: loading.effects['register/addOne']
 }))
 @Form.create()
 export default class RegisterPage extends Component {
@@ -48,6 +49,8 @@ export default class RegisterPage extends Component {
     }
 
     render() {
+        const { submitting } = this.props;
+
         const formItemLayout = {
             labelCol: {
                 span: 8,
@@ -297,7 +300,7 @@ export default class RegisterPage extends Component {
                             </Col>
                         </Row>
                         <div style={{ textAlign: "center" }}>
-                            <Button onClick={validate}>保存</Button>
+                            <Button onClick={validate} loading={submitting}>保存</Button>
                             <Button>重置</Button>
                             <Button>保存并打印</Button>
                             <Button>分配自助查档账号</Button>
