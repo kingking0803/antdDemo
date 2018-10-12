@@ -10,7 +10,7 @@ const { Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 /**
- * 获得菜单子节点
+ * 获得匹配的菜单节点
  * @memberof SiderMenu
  */
 const getDefaultCollapsedSubMenus = props => {
@@ -19,9 +19,11 @@ const getDefaultCollapsedSubMenus = props => {
         menuData,
     } = props;
     const flatMenuKeys = getFlatMenuKeys(menuData);
-    return urlToList(pathname)
-        .map(item => getMenuMatches(flatMenuKeys, item)[0])
-        .filter(item => item);
+    const result = urlToList(pathname)//['/archive','/archive/register']
+    .map(item => getMenuMatches(flatMenuKeys, item)[0])
+    .filter(item => item);
+    console.log(result,"result");
+    return result;
 };
 
 /**
@@ -47,6 +49,7 @@ const getIcon = icon => {
     return icon;
 };
 
+//从菜单列表中查找与当前路径匹配的菜单
 const getMenuMatches = (flatMenuKeys, path) => flatMenuKeys.filter(item => item && pathToRegexp(item).test(path));
 
 export default class SiderMenu extends Component {
@@ -59,6 +62,7 @@ export default class SiderMenu extends Component {
     }
 
     handleOpenChange = openKeys => {
+        console.log(openKeys);
         const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
         this.setState({
             openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys],
@@ -67,6 +71,7 @@ export default class SiderMenu extends Component {
 
     isMainMenu = key => {
         const { menuData } = this.props;
+        console.log(menuData,"menuData");
         return menuData.some(item => {
             if (key) {
                 return item.key === key || item.path === key;
@@ -89,9 +94,20 @@ export default class SiderMenu extends Component {
         return menuData.filter(item => item.name && !item.hideInMenu)
             .map(item => {
                 const ItemDom = this.getSubMenuOrItem(item, parent);
-                return ItemDom;
+                // return ItemDom;
+                return this.checkPermissionItem(item.authority, ItemDom);
             }).filter(item => item);
     }
+
+    // permission to check
+    checkPermissionItem = (authority, ItemDom) => {
+        const { Authorized } = this.props;
+        if (Authorized && Authorized.check) {
+            const { check } = Authorized;
+            return check(authority, ItemDom);
+        }
+        return ItemDom;
+    };
 
     getSubMenuOrItem(item) {
         if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
@@ -99,10 +115,11 @@ export default class SiderMenu extends Component {
             return (
                 <SubMenu title={
                     item.icon ? (
+                        item.isIcon ? (<span><img/></span>) : (
                         <span>
                             {getIcon(item.icon)}
                             <span>{name}</span>
-                        </span>
+                        </span>)
                     ) : name
                 }
                     key={item.path}
@@ -118,15 +135,15 @@ export default class SiderMenu extends Component {
         const name = item.name;
         const itemPath = this.conversionPath(item.path);
         const icon = getIcon(item.icon);
-        const { target } = item;
-        if (/^https?:\/\//.test(itemPath)) {
-            return (
-                <a href={itemPath} target={target}>
-                    {icon}
-                    <span>{name}</span>
-                </a>
-            );
-        }
+        // const { target } = item;
+        // if (/^https?:\/\//.test(itemPath)) {
+        //     return (
+        //         <a href={itemPath} target={target}>
+        //             {icon}
+        //             <span>{name}</span>
+        //         </a>
+        //     );
+        // }
         return (
             <Link
                 to={itemPath}
@@ -149,9 +166,7 @@ export default class SiderMenu extends Component {
         const { menuData } = this.props;
 
         let selectedKeys = this.getSelectedMenuKeys();
-        if (!selectedKeys.length && openKeys) {
-            selectedKeys = [openKeys[openKeys.length - 1]];
-        }
+        
 
         return (
             <Sider width={256} style={{ overflow: 'auto', position: 'fixed', height: '100vh', left: 0, top: 0 }}>

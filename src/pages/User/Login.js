@@ -19,7 +19,7 @@ class LoginPage extends Component {
 
     onTabChange = type => {
         this.setState({ type });
-      };
+    };
 
     handleSubmit = (err, values) => {
         const { type } = this.state;
@@ -46,7 +46,7 @@ class LoginPage extends Component {
             <div className={styles.main}>
                 <Login
                     defaultActiveKey={type}
-                    onTabChange={this.onTabChange}
+                    // onTabChange={this.onTabChange}
                     onSubmit={this.handleSubmit}
                     ref={form => {
                         this.loginForm = form;

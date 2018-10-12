@@ -12,14 +12,14 @@ class Login extends Component {
     static propTypes = {
         className: PropTypes.string,
         defaultActiveKey: PropTypes.string,
-        onTabChange: PropTypes.func,
+        // onTabChange: PropTypes.func,
         onSubmit: PropTypes.func,
     };
 
     static defaultProps = {
         className: '',
         defaultActiveKey: '',
-        onTabChange: () => { },
+        // onTabChange: () => { },
         onSubmit: () => { },
     };
 
@@ -73,13 +73,13 @@ class Login extends Component {
         });
     };
 
-    onSwitch = type => {
-        this.setState({
-            type,
-        });
-        const { onTabChange } = this.props;
-        onTabChange(type);
-    };
+    // onSwitch = type => {
+    //     this.setState({
+    //         type,
+    //     });
+    //     const { onTabChange } = this.props;
+    //     onTabChange(type);
+    // };
 
     render() {
         const { className, children } = this.props;
@@ -107,7 +107,7 @@ class Login extends Component {
                                         animated={false}
                                         className={styles.tabs}
                                         activeKey={type}
-                                        onChange={this.onSwitch}
+                                        
                                     >
                                         {TabChildren}
                                     </Tabs>

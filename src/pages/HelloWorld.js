@@ -21,6 +21,13 @@ class Welcome extends React.Component {
 
 export default () => {
 
+    const conversionPath = path => {
+        if (path && path.indexOf('http') === 0) {
+            return path;
+        }
+        return `/${path || ''}`.replace(/\/+/g, '/');
+    };
+
     const numbers = [1, 2, 3, 4, 5];
     const listItems = numbers.map((number) =>
         <li>{number}</li>
@@ -29,7 +36,7 @@ export default () => {
     return (
         <Welcome name="king1" title="asf">
             <div>
-                <h1>hello</h1>
+                <h1>{conversionPath("////hello")}</h1>
                 <Clock/>
             </div>
         </Welcome>

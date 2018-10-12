@@ -10,6 +10,7 @@ export default [
     {
         path: '/',
         component: '../layouts/BasicLayout',
+        // Routes: ['src/pages/Authorized'],
         routes: [
             { path: '/', redirect: '/helloworld' },
             {
@@ -22,8 +23,10 @@ export default [
                 path: '/dashboard',
                 name: 'Dashboard',
                 icon: 'dashboard',
+                authority: ['admin'],
+                // hideChildrenInMenu: true,
                 routes: [
-                    { path: '/dashboard/analysis', name: '分析页', component: './Dashboard/Analysis' },
+                    { path: '/dashboard/analysis', name: '分析页', component: './Dashboard/Analysis',hideInMenu:true },
                     { path: '/dashboard/monitor', name: '监控页', component: './Dashboard/Monitor' },
                     { path: '/dashboard/workplace', name: '工作台', component: './Dashboard/Workplace' },
                 ]

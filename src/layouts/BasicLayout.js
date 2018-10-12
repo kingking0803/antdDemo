@@ -2,27 +2,29 @@ import { Component } from 'react';
 import { Layout, Menu, Icon, Dropdown } from 'antd';
 import Context from './MenuContext';
 import SiderMenu from '@/components/SiderMenu';
+import Authorized from '@/utils/Authorized';
+import { connect } from 'dva';
 
 const { Header, Footer, Content } = Layout;
 
 // 将路由转成导航栏菜单
-function formatter(data, parentPath = '', parentAuthority, parentName) {
+function formatter(data, parentPath = '', parentAuthority) {
     return data.map(item => {
-        let locale = 'menu';
-        if (parentName && item.name) {
-            locale = `${parentName}.${item.name}`;
-        } else if (item.name) {
-            locale = `menu.${item.name}`;
-        } else if (parentName) {
-            locale = parentName;
-        }
+        // let locale = 'menu';
+        // if (parentName && item.name) {
+        //     locale = `${parentName}.${item.name}`;
+        // } else if (item.name) {
+        //     locale = `menu.${item.name}`;
+        // } else if (parentName) {
+        //     locale = parentName;
+        // }
         const result = {
             ...item,
-            locale,
+            // locale,
             authority: item.authority || parentAuthority,
         };
         if (item.routes) {
-            const children = formatter(item.routes, `${parentPath}${item.path}/`, item.authority, locale);
+            const children = formatter(item.routes, `${parentPath}${item.path}/`, item.authority);
             // Reduce memory usage
             result.children = children;
         }
@@ -31,8 +33,11 @@ function formatter(data, parentPath = '', parentAuthority, parentName) {
     });
 }
 
+@connect(({ login }) => ({
+    login
+}))
 class BasicLayout extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         // this.getBreadcrumbNameMap = memoizeOne(this.getBreadcrumbNameMap, isEqual);
         this.breadcrumbNameMap = this.getBreadcrumbNameMap();
@@ -50,7 +55,10 @@ class BasicLayout extends Component {
         const {
             route: { routes },
         } = this.props;
-        return formatter(routes);
+        
+        const result = formatter(routes);
+        console.log(result,"result11");
+        return result;
     }
 
     /**
@@ -74,11 +82,17 @@ class BasicLayout extends Component {
 
     getContext() {
         const { location } = this.props;
-        console.log(this.breadcrumbNameMap, "BasicLayout");
         return {
             location,
             breadcrumbNameMap: this.breadcrumbNameMap,
         };
+    }
+
+    handleClickLogout() {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'login/logout',
+        });
     }
 
     render() {
@@ -94,7 +108,7 @@ class BasicLayout extends Component {
                     密码修改
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key="logout">
+                <Menu.Item key="logout" onClick={this.handleClickLogout.bind(this)}>
                     <Icon type="logout" />
                     退出登录
               </Menu.Item>
@@ -105,13 +119,13 @@ class BasicLayout extends Component {
 
         const layout = (
             <Layout>
-                <SiderMenu menuData={this.getMenuData()} {...this.props} />
+                <SiderMenu Authorized={Authorized} menuData={this.getMenuData()} {...this.props} />
                 <Layout style={{ paddingLeft: '256px' }}>
                     <Header style={{ position: 'fixed', zIndex: 1, width: width, background: '#fff', textAlign: 'center', padding: 0 }}>
                         <div style={{ float: 'right', height: '100%', paddingRight: '20px' }}>
                             <Dropdown overlay={menu}>
                                 <a className="ant-dropdown-link" href="#">
-                                    admin <Icon type="down" />
+                                    king <Icon type="down" />
                                 </a>
                             </Dropdown>
                         </div>
