@@ -12,11 +12,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "jquery": "^3.3.1",
+    "layer": "^0.1.0",
     "umi": "^2.0.3",
     "umi-plugin-react": "^1.0.3"
   },
   "dependencies": {
     "ant-design-pro": "^2.0.0",
-    "antd": "^3.9.2"
+    "antd": "^3.9.2",
+    "react-resizable": "^1.7.5"
   }
 }

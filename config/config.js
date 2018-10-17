@@ -9,6 +9,7 @@ export default {
             dynamicImport: {
                 loadingComponent: './components/PageLoading/index',
             },
+            polyfills: ['ie11'],
         }],
     ],
     routes: Router,

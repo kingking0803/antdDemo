@@ -57,7 +57,6 @@ class BasicLayout extends Component {
         } = this.props;
         
         const result = formatter(routes);
-        console.log(result,"result11");
         return result;
     }
 
@@ -131,7 +130,7 @@ class BasicLayout extends Component {
                         </div>
                     </Header>
                     <Content style={{ margin: '80px 16px 80px' }}>
-                        <div style={{ padding: 10, background: '#ECECEC', minHeight: 360 }}>
+                        <div style={{ padding: 10, minHeight: 360 }}>
                             {this.props.children}
                         </div>
                     </Content>

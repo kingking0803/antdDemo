@@ -23,7 +23,7 @@ export default [
                 path: '/dashboard',
                 name: 'Dashboard',
                 icon: 'dashboard',
-                authority: ['admin'],
+                authority: ['user'],
                 // hideChildrenInMenu: true,
                 routes: [
                     { path: '/dashboard/analysis', name: '分析页', component: './Dashboard/Analysis',hideInMenu:true },
@@ -53,6 +53,12 @@ export default [
                         component: './Archive/Manage',
                     }
                 ]
+            },
+            {
+                path: 'form',
+                name: '表单',
+                icon: 'dashboard',
+                component: './form',
             }
         ]
 

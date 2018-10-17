@@ -22,7 +22,6 @@ const getDefaultCollapsedSubMenus = props => {
     const result = urlToList(pathname)//['/archive','/archive/register']
     .map(item => getMenuMatches(flatMenuKeys, item)[0])
     .filter(item => item);
-    console.log(result,"result");
     return result;
 };
 
@@ -62,7 +61,6 @@ export default class SiderMenu extends Component {
     }
 
     handleOpenChange = openKeys => {
-        console.log(openKeys);
         const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
         this.setState({
             openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys],
@@ -71,7 +69,6 @@ export default class SiderMenu extends Component {
 
     isMainMenu = key => {
         const { menuData } = this.props;
-        console.log(menuData,"menuData");
         return menuData.some(item => {
             if (key) {
                 return item.key === key || item.path === key;
